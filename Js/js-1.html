@@ -1,0 +1,70 @@
+<!doctype html><html><head>
+<title>This is an HTML canvas</title>
+<link rel="stylesheet" href="../assets/styles.css">
+</head>
+<button onclick = " drawArray (context, DrawArr)">Click me!</button>
+<button onclick = "generateNewGen(DrawArr)"> Reset</button>
+
+<div id="myDIV"></div>
+
+<body><h1>Playing the HTML canvas</h1>
+
+<canvas id="grid" width="400" height="400"></canvas>
+
+</body>
+<script src="../assets/draw-stuff.js"></script>
+<script>
+// after "Introducing JavaScript Game Development" by Stuart.
+
+// =====================================================  draw_title ====
+// Draw filled rect.
+function draw_title( context ) 
+{
+    context.save( );
+    context.fillStyle = 'lightgreen';
+    context.font = "30px Arial";
+    context.fillText( "Grid", 170, 40 );
+    context.restore( );
+}
+// =====================================================  Main ====
+var currentY = 50; 
+
+  var canvas = document.getElementById( "grid" );
+  var context = canvas.getContext( "2d" );
+  draw_rect( context );
+  // Draw a grid
+  draw_grid( context, 10, 50, 'white', 'yellow' );
+  draw_title( context );
+  context.fillStyle = "red";
+  
+
+	generateNewGen(context);
+  
+	
+  // context.moveTo(0,0);
+  //context.lineTo(200,100);
+  //context.stroke()
+
+  //displayText is called when button "Click me!" is selected
+  function displayText()
+  {
+    var x = document.getElementById("myDIV");
+    x.innerHTML = "Hello";
+  }
+
+  //hideText is called when button "reset" is selected
+  function hideText()
+  {
+    var x = document.getElementById("myDIV");
+    x.innerHTML = "";
+  }
+ // drawArray (context, DrawArr, 50);
+  
+  
+  //draw_cell(context, 70 ,50);
+ // draw_cell(context, 80 ,50);
+ // draw_cell(context, 100 ,50);
+  
+  
+</script>
+</html>
