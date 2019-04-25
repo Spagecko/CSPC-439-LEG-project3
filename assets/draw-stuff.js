@@ -1,67 +1,29 @@
-// Draw stuff
-// Time-stamp: <2019-01-21 20:08:33 Chuck Siska>
-// ------------------------------------------------------------
 
-// FUN. Draw filled rect.
-var globalY = 50; 
+var arry = [];
+var length1 = 20; 
+var width1 = 20;
+var globalX = 0; 
+var globalY = 0; 
 
-function generateNewGen(ctx)
+function createArray ()
 {
-	var DrawArr = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0];
-	var arrSet = [0,0,0];
-	var arrSet2 = [0,1,0];
-	var arrSet3 = [0,1,1];
-	var arrSet4 = [1,0,1];
-	
-	var tempArr = DrawArr; 
-	var arrayLength = DrawArr.length;
-	var newArr = [];
 
-    //Draw the first array and set variable m to 1 to offset the drawing
-    drawArray(ctx, DrawArr);
-	for( var m = 1; m < 30; m++)
-	{
-        newArr = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-        tempArr = DrawArr;
-	for (var i = 1; i < arrayLength - 1; i++)
-	{
-		
-		var tempArrSet = [tempArr[i-1], tempArr[i],tempArr[i+1]];
-			
-            //call function compare to compare two arrays
-			if(compare(arrSet, tempArrSet))
-			{
-				newArr[i] = 1;
-			}
-			else if(compare(arrSet2, tempArrSet))
-			{
-				newArr[i] = 1;
-			}
-			else if(compare(arrSet3, tempArrSet))
-			{
-				newArr[i] = 1;
-			}
-			else if(compare(arrSet4, tempArrSet))
-			{
-				newArr[i] = 1;
-			}
-			else
-			{
-				
-				newArr[i] = 0;
-			}
-			
-				
-		
-	
-	}
-		DrawArr = newArr;
-		drawArray(ctx, DrawArr);
-	}
-	
-	
+for(var i = 0; i < length1; i++)
+{
+    arry[i] = [];
+    for(var j = 0; j < width1; j++)
+    {
+        arry[i][j] = 0;
+    }
+}
 
-	
+
+
+}
+function test(ctx)
+{
+	createArray(); 
+	drawArray(ctx, arry); 
 }
 
 function draw_rect( ctx, stroke, fill ) 
@@ -94,25 +56,39 @@ function draw_cell (ctx, x, y)
 	ctx.fill();
 	ctx.restore();
 }
+
+function calcXY(row,col)
+{
+	globalY = row * 10 + 100
+	globalX = col * 10 + 100
+}
  function drawArray (ctx, arr )
  {
-	 var localX =  70; 
-	 var arrayLength = arr.length; 
-	 for(var i = 0 ; i < arrayLength; i++)
+	 
+	 for(var i = 0; i < length1 ;i++)
 	 {
-		 if(arr[i] === 1)
+		 
+		 for(var j = 0; j < width1 ; j++)
 		 {
-			 draw_cell(ctx,localX, globalY );
+			console.log("cube[" + i + "][" + j + "] = " + arr[i][j]);
+			if(arr[i][j] === 1)
+			{
+			calcXY(i,j); 
+			draw_cell(ctx,globalX,globalY); 
+			} 
+			 
 		 }
-		 localX = localX + 10; 
+		 
 	 }
-	 globalY = globalY + 10; 
+ 
+	 
+	 
+	 
  }
 
 
 
 
-// =====================================================  draw_grid ====
 function draw_grid( rctx, rminor, rmajor, rstroke, rfill  ) 
 {
     rctx.save( );

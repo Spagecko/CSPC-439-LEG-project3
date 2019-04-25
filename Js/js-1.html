@@ -2,12 +2,11 @@
 <title>This is an HTML canvas</title>
 <link rel="stylesheet" href="../assets/styles.css">
 </head>
-<button onclick = " drawArray (context, DrawArr)">Click me!</button>
-<button onclick = "generateNewGen(DrawArr)"> Reset</button>
+
 
 <div id="myDIV"></div>
 
-<body><h1>Playing the HTML canvas</h1>
+
 
 <canvas id="grid" width="400" height="400"></canvas>
 
@@ -27,18 +26,20 @@ function draw_title( context )
     context.restore( );
 }
 // =====================================================  Main ====
-var currentY = 50; 
+
 
   var canvas = document.getElementById( "grid" );
   var context = canvas.getContext( "2d" );
   draw_rect( context );
   // Draw a grid
   draw_grid( context, 10, 50, 'white', 'yellow' );
-  draw_title( context );
+ // draw_title( context );
   context.fillStyle = "red";
   
+  test(context);
+  
 
-	generateNewGen(context);
+	//generateNewGen(context);
   
 	
   // context.moveTo(0,0);
@@ -46,18 +47,10 @@ var currentY = 50;
   //context.stroke()
 
   //displayText is called when button "Click me!" is selected
-  function displayText()
-  {
-    var x = document.getElementById("myDIV");
-    x.innerHTML = "Hello";
-  }
+ 
 
   //hideText is called when button "reset" is selected
-  function hideText()
-  {
-    var x = document.getElementById("myDIV");
-    x.innerHTML = "";
-  }
+
  // drawArray (context, DrawArr, 50);
   
   
