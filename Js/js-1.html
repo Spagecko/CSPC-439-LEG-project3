@@ -140,39 +140,45 @@ function MakeGraph3(context)
  draw_Write(context);
 
 }
+
 // =====================================================  Main ====
 
 
 var canvas = document.getElementById( "grid" );
  // var canvas2 = document.getElementById( "grid2" );
-   var canvas2_l = document.getElementById( "grid2_r" );
-   var canvas2_m= document.getElementById( "grid2_m" );
-	var canvas2_r= document.getElementById( "grid2_l" );
-	 var canvas2_wr = document.getElementById( "grid2_wr" );
-	  var canvas2_mov = document.getElementById( "grid2_mov" )
-	   var canvas3 = document.getElementById( "grid3" );
-  var canvas4 = document.getElementById( "grid4" );
-  var context = canvas.getContext( "2d" );
-   var context = canvas.getContext( "2d" );
+var canvas2_l = document.getElementById( "grid2_r" );
+var canvas2_m= document.getElementById( "grid2_m" );
+var canvas2_r= document.getElementById( "grid2_l" );
+var canvas2_wr = document.getElementById( "grid2_wr" );
+var canvas2_mov = document.getElementById( "grid2_mov" )
+var canvas3 = document.getElementById( "grid3" );
+var canvas4 = document.getElementById( "grid4" );
+var context = canvas.getContext( "2d" );
+var context = canvas.getContext( "2d" );
  // var context2 = canvas2.getContext("2d"); 
-  var context2_l = canvas2_l.getContext("2d"); 
-  var context2_m = canvas2_m.getContext("2d");
-  var context2_r = canvas2_r.getContext("2d");
-	var context2_wr = canvas2_wr.getContext("2d"); 
-	var context2_mov = canvas2_mov.getContext("2d"); 
-	var context3 = canvas3.getContext("2d");
-	var context4 = canvas4.getContext("2d");
-  draw_rect( context );
+var context2_l = canvas2_l.getContext("2d"); 
+var context2_m = canvas2_m.getContext("2d");
+var context2_r = canvas2_r.getContext("2d");
+var context2_wr = canvas2_wr.getContext("2d"); 
+var context2_mov = canvas2_mov.getContext("2d"); 
+var context3 = canvas3.getContext("2d");
+var context4 = canvas4.getContext("2d");
+//draw_rect( context );
   // Draw a grid
-  draw_grid( context, 10, 50, 'white', 'yellow' );
+draw_grid( context, 10, 50, 'white', 'yellow' );
  // draw_title( context );
-  context.fillStyle = "red";
-   MakeGraph2_all( context2_l,context2_m,context2_r,context2_wr,context2_mov, context4 );
-  
-  test(context);
+context.fillStyle = "red";
+MakeGraph2_all( context2_l,context2_m,context2_r,context2_wr,context2_mov, context4 );
   
 
-	//generateNewGen(context);
+//GameOfLife(array,context);
+test(context);
+
+
+
+  
+
+//generateNewGen(context);
   
 	
   // context.moveTo(0,0);

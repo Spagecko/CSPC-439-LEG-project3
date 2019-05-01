@@ -1,30 +1,33 @@
-
-var arry = [];
 var length1 = 20; 
 var width1 = 20;
 var globalX = 0; 
 var globalY = 0; 
+var arry = [];
 
 function createArray ()
 {
-
-for(var i = 0; i < length1; i++)
-{
+    for(var i = 0; i < length1; i++){
     arry[i] = [];
     for(var j = 0; j < width1; j++)
     {
-        arry[i][j] = 0;
+        //random number
+        arry[i][j] = Math.floor(Math.random() * 2);
+    }
     }
 }
 
 
-
-}
 function test(ctx)
-{
-	createArray(); 
-	drawArray(ctx, arry); 
+{ 
+    //drawArray(ctx, arry); 
+    createArray();
+
+    //console.log(arry);
+
+    setInterval(GameOfLife, 200 , arry, ctx);
+    //GameOfLife(arry,ctx);
 }
+
 function draw_BIG_cell (ctx, x, y)
 {
 	var stroke = 'transparent';
@@ -240,7 +243,7 @@ function calcXY(row,col)
 	globalY = row * 10 + 100
 	globalX = col * 10 + 100
 }
- function drawArray (ctx, arr )
+ function drawArray (ctx, arr)
  {
 	 
 	 for(var i = 0; i < length1 ;i++)
@@ -248,7 +251,7 @@ function calcXY(row,col)
 		 
 		 for(var j = 0; j < width1 ; j++)
 		 {
-			console.log("cube[" + i + "][" + j + "] = " + arr[i][j]);
+			//console.log("cube[" + i + "][" + j + "] = " + arr[i][j]);
 			if(arr[i][j] === 1)
 			{
 			calcXY(i,j); 
@@ -263,9 +266,6 @@ function calcXY(row,col)
 	 
 	 
  }
-
-
-
 
 function draw_grid( rctx, rminor, rmajor, rstroke, rfill  ) 
 {
@@ -305,4 +305,101 @@ function compare(a, b)
 		}
 
 	return true;
+}
+
+function checkNeighbors(array,x,y)
+{
+    var neighbors = 0;
+
+    for(var i = -1; i < 2; i++)
+    {
+        for (var j = -1; j < 2; j++)
+        {
+            if (x + i < 0 || y + j < 0 || x + i == width1 || y + j == length1)
+            {
+                //do nothing
+            }
+            else if (i == 0 && j == 0)
+            {
+                //do nothing
+            }
+            else if (array[x + i][y + j] === 1)
+            {
+                //console.log("from array" + [x + i] + [y + j] )
+                neighbors++;
+            }
+            else
+            {
+                //do nothing
+            }
+        }
+    }
+
+    return neighbors;
+}
+
+function GameOfLife(array,context)
+{
+    //console.log(array);
+    drawArray(context, array);
+
+    var x_array = new Array();
+    var y_array = new Array();
+    var value_array = new Array();
+
+    for (var i = 0; i < length1; i++)
+    {
+        for (var j = 0; j < width1; j++)
+        {
+            //console.log("cube[" + i + "][" + j + "] = " + array[i][j]);
+            //console.log(checkNeighbors(array, i, j));
+
+            if (array[i][j] === 0)
+            {
+                if (checkNeighbors(array, i, j) == 3)
+                {
+                    //copy_array[i][j] = 1;
+                    //console.log("dead to life");
+                    
+                    x_array.push(i);
+                    y_array.push(j);
+                    value_array.push(1);
+                }
+                else
+                {
+                    //console.log("dead still dead");
+                }
+            }
+            else
+            {
+                //underpopulation || overpopulation 
+                if(checkNeighbors(array,i,j) <= 1 || checkNeighbors(array,i,j) >= 4)
+                {            
+                    x_array.push(i);
+                    y_array.push(j);
+                    value_array.push(0);
+                    //console.log("life to death")
+                }
+                else
+                {
+                    //console.log("life still life")
+                }
+            }
+        }
+    }
+
+    for (var i = 0; i < x_array.length; i++)
+    {
+        array[x_array[i]][y_array[i]] = value_array[i];
+    }
+
+    refreshGrid(context);
+    drawArray(context, array);
+
+}
+
+function refreshGrid(context)
+{
+    context.clearRect(0,0,canvas.width,canvas.height);
+    draw_grid( context, 10, 50, 'white', 'yellow' );
 }
