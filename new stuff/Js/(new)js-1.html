@@ -1,0 +1,341 @@
+<!doctype html><html><head>
+<title>This is an HTML canvas</title>
+<link rel="stylesheet" href="../assets/styles.css">
+</head>
+
+
+<div id="myDIV"></div>
+
+<button type="button">TM simulation </button>
+<button type="button">Real Time Simulation</button>
+
+<body><h1>The current state of the state machine </h1>
+
+<div>
+<canvas id="grid2_l_UP" width="100" height="150"></canvas>
+<canvas id="grid2_m_UP" width="100" height="150"></canvas>
+<canvas id="grid2_r_UP" width="100" height="150"></canvas>
+</div>
+
+<div>
+<canvas id="grid2_l" width="100" height="150"></canvas>
+<canvas id="grid2_m" width="100" height="150"></canvas>
+
+<canvas id="grid2_r" width="100" height="150"></canvas>
+</div>
+
+<div>
+<canvas id="grid2_l_DOWN" width="100" height="150"></canvas>
+<canvas id="grid2_m_DOWN" width="100" height="150"></canvas>
+
+<canvas id="grid2_r_DOWN" width="100" height="150"></canvas>
+</div>
+
+<canvas id="grid2_mov" width="100" height="150"></canvas>
+
+
+<canvas id="grid2_remove" width="100" height="150"></canvas>
+<canvas id="grid2_wr" width="100" height="150"></canvas>
+<canvas id="grid2_Death" width="100" height="150"></canvas>
+<canvas id="grid2_Birth" width="100" height="150"></canvas>
+
+
+</div>
+<div>
+<h1>Position of The TM</h1>
+<canvas id="grid4" width="400" height="400"></canvas>
+</div>
+
+<canvas id="grid" width="400" height="400"></canvas>
+
+</body>
+<script src="../assets/draw-stuff.js"></script>
+<script>
+// after "Introducing JavaScript Game Development" by Stuart.
+
+// =====================================================  draw_title ====
+// Draw filled rect.
+function draw_title( context ) 
+{
+    context.save( );
+    context.fillStyle = 'lightgreen';
+    context.font = "30px Arial";
+    context.fillText( "Grid", 25, 40 );
+    context.restore( );
+}
+function draw_StateMove( context ) 
+{
+    context.save( );
+    context.fillStyle = 'lightgreen';
+    context.font = "15px Arial";
+    context.fillText( "Move", 25, 20 );
+    context.restore( );
+}
+function draw_ReadLeft_Up( context ) 
+{
+    context.save( );
+    context.fillStyle = 'lightgreen';
+    context.font = "15px Arial";
+    context.fillText( "RLeft_up", 25, 20 );
+    context.restore( );
+}
+function draw_ReadRight_Up( context ) 
+{
+    context.save( );
+    context.fillStyle = 'lightgreen';
+    context.font = "15px Arial";
+    context.fillText( "RRight_Up", 25, 20 );
+    context.restore( );
+}
+function draw_ReadMiddle_Up( context ) 
+{
+    context.save( );
+    context.fillStyle = 'lightgreen';
+    context.font = "15px Arial";
+    context.fillText( "RMid_Up", 25, 20 );
+    context.restore( );
+}
+function draw_ReadLeft( context ) 
+{
+    context.save( );
+    context.fillStyle = 'lightgreen';
+    context.font = "15px Arial";
+    context.fillText( "RLeft", 25, 20 );
+    context.restore( );
+}
+function draw_ReadRight( context ) 
+{
+    context.save( );
+    context.fillStyle = 'lightgreen';
+    context.font = "15px Arial";
+    context.fillText( "RRight", 25, 20 );
+    context.restore( );
+}
+function draw_ReadMiddle( context ) 
+{
+    context.save( );
+    context.fillStyle = 'lightgreen';
+    context.font = "15px Arial";
+    context.fillText( "RMid", 25, 20 );
+    context.restore( );
+}
+
+// read down 
+
+function draw_ReadLeft_down( context ) 
+{
+    context.save( );
+    context.fillStyle = 'lightgreen';
+    context.font = "15px Arial";
+    context.fillText( "RLeft_down", 25, 20 );
+    context.restore( );
+}
+function draw_ReadRight_down( context ) 
+{
+    context.save( );
+    context.fillStyle = 'lightgreen';
+    context.font = "15px Arial";
+    context.fillText( "RRight_down", 25, 20 );
+    context.restore( );
+}
+function draw_ReadMiddle_down( context ) 
+{
+    context.save( );
+    context.fillStyle = 'lightgreen';
+    context.font = "15px Arial";
+    context.fillText( "RMid_down", 25, 20 );
+    context.restore( );
+}
+//
+function draw_Write( context ) 
+{
+    context.save( );
+    context.fillStyle = 'lightgreen';
+    context.font = "15px Arial";
+    context.fillText( "Write", 25, 20 );
+    context.restore( );
+}
+
+function draw_Remove( context ) 
+{
+    context.save( );
+    context.fillStyle = 'lightgreen';
+    context.font = "20px Arial";
+    context.fillText( "Remove", 25, 20 );
+    context.restore( );
+}
+function draw_Birth( context ) 
+{
+    context.save( );
+    context.fillStyle = 'lightgreen';
+    context.font = "20px Arial";
+    context.fillText( "Birth", 25, 20 );
+    context.restore( );
+}
+function draw_Death( context ) 
+{
+    context.save( );
+    context.fillStyle = 'lightgreen';
+    context.font = "20px Arial";
+    context.fillText( "death", 25, 20 );
+    context.restore( );
+}
+
+function MakeGraph2(context)
+{
+
+ draw_grid( context, 10, 50, 'white', 'yellow' );
+ draw_Write(context); 
+ draw_StateMove(context); 
+ draw_ReadRight(context); 
+ draw_ReadLeft(context);
+ draw_ReadMiddle(context);
+}
+function MakeGraph2_all(context,context2,context3,context4,context5,context6,context7,context8,context9,context10,context11,context12,context13, context14,context15)
+{
+
+ draw_grid( context, 10, 50, 'white', 'yellow' );
+ draw_grid( context2, 10, 50, 'white', 'yellow' );
+ draw_grid( context3, 10, 50, 'white', 'yellow' );
+ draw_grid( context4, 10, 50, 'white', 'yellow' );
+ draw_grid( context5, 10, 50, 'white', 'yellow' );
+ draw_grid( context6, 10, 50, 'white', 'yellow' );
+ draw_grid( context7, 10, 50, 'white', 'yellow' );
+ draw_grid( context8, 10, 50, 'white', 'yellow' );
+ draw_grid( context9, 10, 50, 'white', 'yellow' );
+ draw_grid( context10, 10, 50, 'white', 'yellow' );
+ draw_grid( context11, 10, 50, 'white', 'yellow' );
+ draw_grid( context12, 10, 50, 'white', 'yellow' );
+ draw_grid( context13, 10, 50, 'white', 'yellow' );
+ draw_grid( context14, 10, 50, 'white', 'yellow' );
+ draw_grid( context15, 10, 50, 'white', 'yellow' );
+
+ 
+ draw_StateMove(context5); 
+ draw_ReadRight(context3);
+	draw_Write(context4);
+ draw_ReadLeft(context);
+ draw_ReadMiddle(context2);
+ 
+ draw_ReadLeft_Up(context7);
+ draw_ReadMiddle_Up(context8); 
+ draw_ReadRight_Up(context9);
+ // 7 8 9 draw up cellpadding
+ 
+ 
+ // 10 11 12 draw down cells 
+ draw_ReadLeft_down(context10);
+ draw_ReadMiddle_down(context11); 
+ draw_ReadRight_down(context12);
+ 
+ 
+ //13 14 15 draw death remove and birth 
+ draw_Death(context13);
+ draw_Remove(context14); 
+ draw_Birth(context15);
+ 
+ 
+ 
+}
+
+function MakeGraph3(context)
+{
+
+ draw_grid( context, 10, 50, 'white', 'yellow' );
+ draw_Write(context);
+
+}
+// =====================================================  Main ====
+
+
+var canvas = document.getElementById( "grid" );
+ // var canvas2 = document.getElementById( "grid2" );
+ 
+		// UP 
+    var canvas2_l_UP = document.getElementById( "grid2_l_UP" );
+   var canvas2_m_UP= document.getElementById( "grid2_m_UP" );
+	var canvas2_r_UP= document.getElementById( "grid2_r_UP" );
+	// MIDLE 
+   var canvas2_l = document.getElementById( "grid2_r" );
+   var canvas2_m= document.getElementById( "grid2_m" );
+	var canvas2_r= document.getElementById( "grid2_l" );
+	 var canvas2_wr = document.getElementById( "grid2_wr" );
+	 // DOWN 
+	    var canvas2_l_DOWN = document.getElementById( "grid2_r_DOWN" );
+   var canvas2_m_DOWN= document.getElementById( "grid2_m_DOWN" );
+	var canvas2_r_DOWN = document.getElementById( "grid2_l_DOWN" );
+	 
+	  /// bottom cells 
+	  
+	  var canvas2_mov = document.getElementById( "grid2_mov" );
+	   var canvas3 = document.getElementById( "grid2_remove" );
+	   var canvas2_death = document.getElementById( "grid2_Death" );
+	   var canvas2_Birth = document.getElementById( "grid2_Birth" );
+	   
+	   
+  var canvas4 = document.getElementById( "grid4" ); // <--- TIM GRID 
+  var context = canvas.getContext( "2d" );
+   var context = canvas.getContext( "2d" );
+   //upper 
+     var context2_l_up = canvas2_l_UP.getContext("2d"); 
+  var context2_m_up = canvas2_m_UP.getContext("2d");
+  var context2_r_up = canvas2_r_UP.getContext("2d");
+   
+   
+ // var context2 = canvas2.getContext("2d"); 
+ 
+ // midle 
+ 
+  var context2_l = canvas2_l.getContext("2d"); 
+  var context2_m = canvas2_m.getContext("2d");
+  var context2_r = canvas2_r.getContext("2d");
+  
+  // bottom 
+  
+   var context2_l_down = canvas2_l_DOWN.getContext("2d"); 
+  var context2_m_down = canvas2_m_DOWN.getContext("2d");
+  var context2_r_down = canvas2_r_DOWN.getContext("2d");
+  
+  // bootomm 5 
+	var context2_wr = canvas2_wr.getContext("2d"); 
+	var context2_mov = canvas2_mov.getContext("2d"); 
+	var context3 = canvas3.getContext("2d");  // remove
+	var context_death= canvas2_death.getContext("2d"); 
+	var context_birth= canvas2_Birth.getContext("2d"); 
+	
+	
+	var context4 = canvas4.getContext("2d");
+	
+	
+  draw_rect( context );
+  // Draw a grid
+  draw_grid( context, 10, 50, 'white', 'yellow' );
+ // draw_title( context );
+  context.fillStyle = "red";
+   MakeGraph2_all( context2_l,context2_m,context2_r,context2_wr,context2_mov,context4,context2_l_up,context2_m_up, context2_r_up,context2_l_down,context2_m_down,context2_r_down,context_death,context3,context_birth);
+  
+  test(context);
+  
+
+	//generateNewGen(context);
+  
+	
+  // context.moveTo(0,0);
+  //context.lineTo(200,100);
+  //context.stroke()
+
+  //displayText is called when button "Click me!" is selected
+ 
+
+  //hideText is called when button "reset" is selected
+
+ // drawArray (context, DrawArr, 50);
+  
+  
+  //draw_cell(context, 70 ,50);
+ // draw_cell(context, 80 ,50);
+ // draw_cell(context, 100 ,50);
+  
+  
+</script>
+</html>

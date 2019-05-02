@@ -1,0 +1,13 @@
+body {
+  text-align: center;
+  font-family: sans-serif;
+  display: inline-block; 
+}
+canvas {
+  background-color: black;
+}
+.flex-container {
+  display: flex;
+  
+  flex-wrap: wrap;
+}
