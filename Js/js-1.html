@@ -8,7 +8,8 @@
 
 <div id="myDIV"></div>
 
-<button onclick="turingMachineStart(context);">TM simulation </button>
+<button onclick="turingMachineStart(context, context2_l, context2_m, context2_r, context2_wr, context2_mov, context4, context2_l_up, context2_m_up,
+                                    context2_r_up, context2_l_down, context2_m_down, context2_r_down, context_death, context3, context_birth);">TM simulation </button>
 <button onclick="setInterval(function () { GameOfLife(context) }, 500);">Real Time Simulation</button>
 
 <body>
@@ -119,7 +120,7 @@ function draw_ReadMiddle( context )
     context.save( );
     context.fillStyle = 'lightgreen';
     context.font = "15px Arial";
-    context.fillText( "RMid", 25, 20 );
+    context.fillText( "Check Pop.", 25, 20 );
     context.restore( );
 }
 
@@ -259,14 +260,14 @@ var canvas = document.getElementById( "grid" );
    var canvas2_m_UP= document.getElementById( "grid2_m_UP" );
 	var canvas2_r_UP= document.getElementById( "grid2_r_UP" );
 	// MIDLE
-   var canvas2_l = document.getElementById( "grid2_r" );
+   var canvas2_l = document.getElementById( "grid2_l" );
    var canvas2_m= document.getElementById( "grid2_m" );
-	var canvas2_r= document.getElementById( "grid2_l" );
+	var canvas2_r= document.getElementById( "grid2_r" );
 	 var canvas2_wr = document.getElementById( "grid2_wr" );
 	 // DOWN
-	    var canvas2_l_DOWN = document.getElementById( "grid2_r_DOWN" );
+	    var canvas2_l_DOWN = document.getElementById( "grid2_l_DOWN" );
    var canvas2_m_DOWN= document.getElementById( "grid2_m_DOWN" );
-	var canvas2_r_DOWN = document.getElementById( "grid2_l_DOWN" );
+	var canvas2_r_DOWN = document.getElementById( "grid2_r_DOWN" );
 
 	  /// bottom cells
 

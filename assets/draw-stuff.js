@@ -37,11 +37,14 @@ function drawPreset() {
     tempArry[4][1] = 1;
 }
 
-function turingMachineStart(ctx) {
+function turingMachineStart(ctx, ctxL, ctxM, ctxR, ctxWr, ctxMov, ctx4, ctxLU, ctxMU,
+                                    ctxRU, ctxLD, ctxMD, ctxRD, ctxDe, ctx3, ctxBi) {
     createArray();
     drawPreset();
     drawArray(ctx, arry);
-    closeInt = setInterval(function () { runTuringMachine(ctx) }, 0);
+    closeInt = setInterval(function () {
+        runTuringMachine(ctx, ctxL, ctxM, ctxR, ctxWr, ctxMov, ctx4, ctxLU, ctxMU,
+                                        ctxRU, ctxLD, ctxMD, ctxRD, ctxDe, ctx3, ctxBi)}, 150);
 }
 
 function test(ctx) {
@@ -54,10 +57,14 @@ function test(ctx) {
     //GameOfLife(arry,ctx);
 }
 
-function runTuringMachine(ctx) {
-
+function runTuringMachine(ctx, ctxL, ctxM, ctxR, ctxWr, ctxMov, ctx4, ctxLU, ctxMU,
+                                    ctxRU, ctxLD, ctxMD, ctxRD, ctxDe, ctx3, ctxBi) {
+    clear_small_cell(ctx4, globalX, globalY);
     if (state === 0)    //move
     {
+        reFillCell(ctxBi);
+        reEraseCell(ctxDe);
+        reNoteStateMachineReadMiddle(ctxM);
         if (col > length1 - 3) {
             row++;
             col = 0;
@@ -70,86 +77,116 @@ function runTuringMachine(ctx) {
             drawArray(ctx, arry);
             col = 0;
             row = 1;
+            globalX = 0;
+            globalY = 10;
         }
         else {
             col++;
             state = 1;
+            calcXY(row, col);
+            NoteStateMachineMove(ctxMov, ctx4);
         }
 
     }
     else if (state === 1) //read upper left
     {
-        readCellTuringMachine(row - 1, col - 1);
+        readCellTuringMachine(ctx4, row - 1, col - 1);
         state = 2;
+        readUpLeft(ctxLU);
+        reNoteStateMachineMove(ctxMov);
     }
     else if (state === 2) //read upper center
     {
-        readCellTuringMachine(row, col - 1);
+        readCellTuringMachine(ctx4, row - 1, col);
         state = 3;
+        readUpMiddle(ctxMU);
+        reReadUpLeft(ctxLU);
     }
     else if (state === 3)//read upper right
     {
-        readCellTuringMachine(row + 1, col - 1);
+        readCellTuringMachine(ctx4, row - 1, col + 1);
         state = 4;
+        readUpRight(ctxRU);
+        reReadUpMiddle(ctxMU);
     }
-    else if (state === 4)//read middle left
+    else if (state === 4)//read middle right
     {
-        readCellTuringMachine(row - 1, col);
+        readCellTuringMachine(ctx4, row, col + 1);
         state = 5;
+        NoteStateMachineReadRight(ctx4, ctxR);
+        reReadUpRight(ctxRU);
     }
-    else if (state === 5)//read middle right
+    else if (state === 5)//read down right
     {
-        readCellTuringMachine(row + 1, col);
+        readCellTuringMachine(ctx4, row + 1, col + 1);
         state = 6;
+        readDownRight(ctxRD);
+        reNoteStateMachineReadRight(ctxR);
     }
-    else if (state === 6)//read down left
+    else if (state === 6)//read down middle
     {
-        readCellTuringMachine(row - 1, col + 1);
+        readCellTuringMachine(ctx4, row + 1, col);
         state = 7;
+        readDownMiddle(ctxMD);
+        reReadDownRight(ctxRD);
     }
-    else if (state === 7)//read down middle
+    else if (state === 7)//read down left
     {
-        readCellTuringMachine(row, col + 1);
+        readCellTuringMachine(ctx4, row + 1, col - 1);
         state = 8;
+        readDownLeft(ctxLD);
+        reReadDownMiddle(ctxMD);
     }
-    else if (state === 8)//read down right
+    else if (state === 8)//read middleLeft
     {
-        readCellTuringMachine(row + 1, col + 1);
+        readCellTuringMachine(ctx4, row, col - 1);
         state = 9;
+        NoteStateMachineReadLeft(ctx4, ctxL);
+        reReadDownLeft(ctxLD);
     }
     else if (state === 9)//check total cell
     {
-
+        calcXY(row, col);
+        NoteStateMachineMove(ctxMov, ctx4);
+        NoteStateMachineReadMiddle(ctx, ctxM);
         //console.log("(" + row + "," + col + "):" + arry[row][col] + " | count->" + count + " delete? -> " + (count >= 4 || count <= 1));
-        if (count === 3)
+        if (count === 3 && arry[row][col] === 0)
             state = 10;
-        else if (count >= 4 || count <= 1)
+        else if ((count >= 4 || count <= 1) && arry[row][col] === 1)
             state = 11;
         else {
             state = 0;
             count = 0;
         }
+        reNoteStateMachineReadLeft(ctxL);
     }
     else if (state === 10)//write cell
     {
+        reNoteStateMachineReadMiddle(ctxM);
         writeCell(row, col);
         //console.log("( " + row + ", " + col + ")=== " + tempArry[row][col]);
         state = 0;
         count = 0;
+        fillCell(ctx, ctx4, ctxBi);
     }
     else if (state === 11)//remove cell
     {
+        reNoteStateMachineReadMiddle(ctxM);
         removeCell(row, col);
         //console.log("( " + row + ", " + col + ")=== " + tempArry[row][col]);
         state = 0;
         count = 0;
+        eraseCell(ctx, ctx4, ctxDe);
+        
     }
     //console.log("state: " + state);
 }
 
-function readCellTuringMachine(r, c) {
+function readCellTuringMachine(ctx, r, c) {
+    calcXY(r, c);
     if (arry[r][c] === 1)
         count++;
+    read_turing_cell(ctx, globalX, globalY);
 }
 
 function writeCell(r, c) {
@@ -224,7 +261,19 @@ function read_turing_cell(ctx, x, y) {
 
 function write_turing_cell(ctx, x, y) {
     var stroke = 'transparent';
-    var fill = 'green';
+    var fill = 'white';
+    ctx.save();
+    ctx.strokeStyle = stroke;
+    ctx.fillStyle = fill;
+    ctx.lineWidth = 0;
+    var gen = 0;
+    width = canvas.width - 210;
+    ctx.fillRect(x, y, 8.5, 8.5);
+    ctx.restore();
+}
+function remove_turing_cell(ctx, x, y) {
+    var stroke = 'transparent';
+    var fill = 'purple';
     ctx.save();
     ctx.strokeStyle = stroke;
     ctx.fillStyle = fill;
@@ -241,28 +290,28 @@ function clear_small_cell(ctx, x, y) {
 }
 function NoteStateMachineReadRight(ctx, ctx4) {
 
-    globalX += 10;
-    read_turing_cell(ctx4, globalX, globalY);
-    currentState++;
-    tmpArrSet[0] = DrawArr[i - 1];
-    draw_BIG_cell(ctx, 50, 50);
+    //globalX += 10;
+    //read_turing_cell(ctx4, globalX, globalY);
+    //currentState++;
+    //tmpArrSet[0] = DrawArr[i - 1];
+    draw_BIG_cell(ctx4, 50, 50);
 }
 
 function NoteStateMachineReadMiddle(ctx, ctx4) {
-    globalX += 10;
-    read_turing_cell(ctx4, globalX, globalY);
-    currentState++;
-    tmpArrSet[1] = DrawArr[i];
-    draw_BIG_cell(ctx, 50, 50);
+    //globalX += 10;
+    //read_turing_cell(ctx4, globalX, globalY);
+    //currentState++;
+    //tmpArrSet[1] = DrawArr[i];
+    draw_BIG_cell(ctx4, 50, 50);
 
 }
 
 function NoteStateMachineReadLeft(ctx, ctx4) {
-    globalX -= 10;
-    read_turing_cell(ctx4, globalX, globalY);
-    currentState++;
-    tmpArrSet[2] = DrawArr[i + 1];
-    draw_BIG_cell(ctx, 50, 50);
+    //globalX -= 10;
+    //read_turing_cell(ctx4, globalX, globalY);
+    //currentState++;
+    //tmpArrSet[2] = DrawArr[i + 1];
+    draw_BIG_cell(ctx4, 50, 50);
 }
 
 function NoteStateMachineWrite(ctx) {
@@ -270,9 +319,9 @@ function NoteStateMachineWrite(ctx) {
 }
 
 function NoteStateMachineMove(ctx, ctx4) {
-    i++;
-    currentState++;
-    globalX += 10;
+    //i++;
+    //currentState++;
+    //globalX += 10;
     move_turing_cell(ctx4, globalX, globalY);
     draw_BIG_cell(ctx, 50, 50);
 }
@@ -284,12 +333,43 @@ function NoteStateMachineWriteCellL(ctx) {
     draw_BIG_cell(ctx, 100, 30);
 }
 function NoteStateMachineWriteCellM(ctx, ctx3, ctx4) {
-    globalY += 10;
+    //globalY += 10;
     write_turing_cell(ctx4, globalX, globalY);
     draw_cell(ctx, globalX, globalY);
-    globalY -= 10;
-    currentState = 0;
+   // globalY -= 10;
+    //currentState = 0;
     draw_BIG_cell(ctx3, 50, 30);
+}
+
+///Project 3 State Machine Function
+
+function readUpLeft(ctx2){
+    draw_BIG_cell(ctx2, 50, 50);
+}
+function readUpMiddle(ctx2) {
+    draw_BIG_cell(ctx2, 50, 50);
+}
+function readUpRight(ctx2) {
+    draw_BIG_cell(ctx2, 50, 50);
+}
+function readDownLeft(ctx2) {
+    draw_BIG_cell(ctx2, 50, 50);
+}
+function readDownMiddle(ctx2) {
+    draw_BIG_cell(ctx2, 50, 50);
+}
+function readDownRight(ctx2) {
+    draw_BIG_cell(ctx2, 50, 50);
+}
+function fillCell(ctx, ctx2, ctx3) {
+    write_turing_cell(ctx, globalX, globalY);
+    write_turing_cell(ctx2, globalX, globalY);
+    draw_BIG_cell(ctx3, 50, 50);
+}
+function eraseCell(ctx, ctx2, ctx3) {
+    remove_turing_cell(ctx, globalX, globalY);
+    remove_turing_cell(ctx2, globalX, globalY);
+    draw_BIG_cell(ctx3, 50, 50);
 }
 
 
@@ -326,6 +406,34 @@ function reNoteStateMachineWriteCellL(ctx) {
 function reNoteStateMachineWriteCellM(ctx) {
     re_BIG_cell(ctx, 50, 30);
 }
+
+//reset part of Project 3 state machine Function
+function reReadUpLeft(ctx) {
+    re_BIG_cell(ctx, 50, 50);
+}
+function reReadUpMiddle(ctx) {
+    re_BIG_cell(ctx, 50, 50);
+}
+function reReadUpRight(ctx) {
+    re_BIG_cell(ctx, 50, 50);
+}
+function reReadDownLeft(ctx) {
+    re_BIG_cell(ctx, 50, 50);
+}
+function reReadDownMiddle(ctx) {
+    re_BIG_cell(ctx, 50, 50);
+}
+function reReadDownRight(ctx) {
+    re_BIG_cell(ctx, 50, 50);
+}
+function reFillCell(ctx){
+    re_BIG_cell(ctx, 50, 50);
+}
+function reEraseCell(ctx) {
+    re_BIG_cell(ctx, 50, 50);
+}
+
+
 function ClearNote(ctx) {
     // reset graph 
 }
