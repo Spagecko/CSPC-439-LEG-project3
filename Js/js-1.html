@@ -36,21 +36,18 @@
     </div>
 
     <canvas id="grid2_mov" width="100" height="150"></canvas>
-
-
-    <canvas id="grid2_remove" width="100" height="150"></canvas>
-    <canvas id="grid2_wr" width="100" height="150"></canvas>
     <canvas id="grid2_Death" width="100" height="150"></canvas>
     <canvas id="grid2_Birth" width="100" height="150"></canvas>
 
 
     </div>
     <div>
-        <h1>Position of The TM</h1>
+        
         <canvas id="grid4" width="400" height="400"></canvas>
+		 <canvas id="grid" width="400" height="400"></canvas>
     </div>
 
-    <canvas id="grid" width="400" height="400"></canvas>
+
 
 </body>
 <script src="../assets/draw-stuff.js"></script>
@@ -150,6 +147,24 @@ function draw_ReadMiddle_down( context )
     context.fillText( "RMid_down", 25, 20 );
     context.restore( );
 }
+
+function draw_RealTimeSim( context )
+{
+    context.save( );
+    context.fillStyle = 'lightgreen';
+    context.font = "15px Arial";
+    context.fillText( "Real Time Simulation", 25, 20 );
+    context.restore( );
+}
+
+function draw_TMsim( context )
+{
+    context.save( );
+    context.fillStyle = 'lightgreen';
+    context.font = "15px Arial";
+    context.fillText( "TM Simulation", 25, 20 );
+    context.restore( );
+}
 //
 function draw_Write( context )
 {
@@ -195,13 +210,13 @@ function MakeGraph2(context)
  draw_ReadLeft(context);
  draw_ReadMiddle(context);
 }
-function MakeGraph2_all(context,context2,context3,context4,context5,context6,context7,context8,context9,context10,context11,context12,context13, context14,context15)
+function MakeGraph2_all(context,context2,context3,context5,context6,context7,context8,context9,context10,context11,context12,context13, context14)
 {
 
  draw_grid( context, 10, 50, 'white', 'yellow' );
  draw_grid( context2, 10, 50, 'white', 'yellow' );
  draw_grid( context3, 10, 50, 'white', 'yellow' );
- draw_grid( context4, 10, 50, 'white', 'yellow' );
+ //draw_grid( context4, 10, 50, 'white', 'yellow' );
  draw_grid( context5, 10, 50, 'white', 'yellow' );
  draw_grid( context6, 10, 50, 'white', 'yellow' );
  draw_grid( context7, 10, 50, 'white', 'yellow' );
@@ -212,12 +227,12 @@ function MakeGraph2_all(context,context2,context3,context4,context5,context6,con
  draw_grid( context12, 10, 50, 'white', 'yellow' );
  draw_grid( context13, 10, 50, 'white', 'yellow' );
  draw_grid( context14, 10, 50, 'white', 'yellow' );
- draw_grid( context15, 10, 50, 'white', 'yellow' );
+
 
 
  draw_StateMove(context5);
  draw_ReadRight(context3);
-	draw_Write(context4);
+	//draw_Write(context4);
  draw_ReadLeft(context);
  draw_ReadMiddle(context2);
 
@@ -235,8 +250,8 @@ function MakeGraph2_all(context,context2,context3,context4,context5,context6,con
 
  //13 14 15 draw death remove and birth
  draw_Death(context13);
- draw_Remove(context14);
- draw_Birth(context15);
+ //draw_Remove(context14);
+ draw_Birth(context14);
 
 
 
@@ -263,7 +278,7 @@ var canvas = document.getElementById( "grid" );
    var canvas2_l = document.getElementById( "grid2_l" );
    var canvas2_m= document.getElementById( "grid2_m" );
 	var canvas2_r= document.getElementById( "grid2_r" );
-	 var canvas2_wr = document.getElementById( "grid2_wr" );
+	 //var canvas2_wr = document.getElementById( "grid2_wr" );
 	 // DOWN
 	    var canvas2_l_DOWN = document.getElementById( "grid2_l_DOWN" );
    var canvas2_m_DOWN= document.getElementById( "grid2_m_DOWN" );
@@ -301,22 +316,24 @@ var canvas = document.getElementById( "grid" );
   var context2_r_down = canvas2_r_DOWN.getContext("2d");
 
   // bootomm 5
-	var context2_wr = canvas2_wr.getContext("2d");
+	//var context2_wr = canvas2_wr.getContext("2d");
 	var context2_mov = canvas2_mov.getContext("2d");
-	var context3 = canvas3.getContext("2d");  // remove
+//	var context3 = canvas3.getContext("2d");  // remove
 	var context_death= canvas2_death.getContext("2d");
 	var context_birth= canvas2_Birth.getContext("2d");
 
 
 	var context4 = canvas4.getContext("2d");
-
+	draw_rect(context4); 
+	draw_TMsim(context4);
 
   draw_rect( context );
+  draw_RealTimeSim(context); 
   // Draw a grid
   draw_grid( context, 10, 50, 'white', 'yellow' );
  // draw_title( context );
   context.fillStyle = "red";
-   MakeGraph2_all( context2_l,context2_m,context2_r,context2_wr,context2_mov,context4,context2_l_up,context2_m_up, context2_r_up,context2_l_down,context2_m_down,context2_r_down,context_death,context3,context_birth);
+   MakeGraph2_all( context2_l,context2_m,context2_r,context2_mov,context4,context2_l_up,context2_m_up, context2_r_up,context2_l_down,context2_m_down,context2_r_down,context_death,context_birth);
 
    createArray();
    drawPreset();
