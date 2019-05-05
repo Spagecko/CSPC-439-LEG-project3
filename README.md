@@ -55,3 +55,7 @@ Turing Machine Simulation Algorithm:
 	Stage 11: The turing machine will delete a new cell. This is indicated with purple color on "TM Simulation" and "Real Time Simulation" Graph. Move to state 0.
 
 	There is no counter and the turing machine will continue to run until the page is reseted. 
+	
+Real Time Simulation Algorithm:
+	Pushing the Real Time Simulation will activate visual reprensentation of John Conway's Game of Life. 
+	The algorithm is checks each element in the grid with values 0 as dead and 1 as alive. For each element, it calls a function called check_neighbors which returns the number of neighbors that the element has. Than depending on the initial element it turns into a dead or alive state depending on certain criterias. If the cell is dead, but has exactly three neighbors, the cell turns alive. IF the cell is alive but has less than 2 neighbors or has more than 3, the cell becomes dead because of underpopulation and overpopulation respectively. 
