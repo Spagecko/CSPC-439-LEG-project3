@@ -37,14 +37,14 @@ function drawPreset() {
     tempArry[4][1] = 1;
 }
 
-function turingMachineStart(ctx, ctxL, ctxM, ctxR, ctxWr, ctxMov, ctx4, ctxLU, ctxMU,
-                                    ctxRU, ctxLD, ctxMD, ctxRD, ctxDe, ctx3, ctxBi) {
+function turingMachineStart(ctx, ctxL, ctxM, ctxR, ctxMov, ctx4, ctxLU, ctxMU,
+                                    ctxRU, ctxLD, ctxMD, ctxRD, ctxDe, ctxBi) {
     createArray();
     drawPreset();
     drawArray(ctx, arry);
     closeInt = setInterval(function () {
-        runTuringMachine(ctx, ctxL, ctxM, ctxR, ctxWr, ctxMov, ctx4, ctxLU, ctxMU,
-                                        ctxRU, ctxLD, ctxMD, ctxRD, ctxDe, ctx3, ctxBi)}, 150);
+        runTuringMachine(ctx, ctxL, ctxM, ctxR, ctxMov, ctx4, ctxLU, ctxMU,
+                                        ctxRU, ctxLD, ctxMD, ctxRD, ctxDe, ctxBi)}, 150);
 }
 
 function test(ctx) {
@@ -57,8 +57,8 @@ function test(ctx) {
     //GameOfLife(arry,ctx);
 }
 
-function runTuringMachine(ctx, ctxL, ctxM, ctxR, ctxWr, ctxMov, ctx4, ctxLU, ctxMU,
-                                    ctxRU, ctxLD, ctxMD, ctxRD, ctxDe, ctx3, ctxBi) {
+function runTuringMachine(ctx, ctxL, ctxM, ctxR, ctxMov, ctx4, ctxLU, ctxMU,
+                                    ctxRU, ctxLD, ctxMD, ctxRD, ctxDe, ctxBi) {
     clear_small_cell(ctx4, globalX, globalY);
     if (state === 0)    //move
     {
@@ -332,13 +332,13 @@ function NoteStateMachineWriteCellR(ctx) {
 function NoteStateMachineWriteCellL(ctx) {
     draw_BIG_cell(ctx, 100, 30);
 }
-function NoteStateMachineWriteCellM(ctx, ctx3, ctx4) {
+function NoteStateMachineWriteCellM(ctx, ctxBi, ctx4) {
     //globalY += 10;
     write_turing_cell(ctx4, globalX, globalY);
     draw_cell(ctx, globalX, globalY);
    // globalY -= 10;
     //currentState = 0;
-    draw_BIG_cell(ctx3, 50, 30);
+    draw_BIG_cell(ctxBi, 50, 30);
 }
 
 ///Project 3 State Machine Function
@@ -361,15 +361,15 @@ function readDownMiddle(ctx2) {
 function readDownRight(ctx2) {
     draw_BIG_cell(ctx2, 50, 50);
 }
-function fillCell(ctx, ctx2, ctx3) {
+function fillCell(ctx, ctx2, ctxBi) {
     write_turing_cell(ctx, globalX, globalY);
     write_turing_cell(ctx2, globalX, globalY);
-    draw_BIG_cell(ctx3, 50, 50);
+    draw_BIG_cell(ctxBi, 50, 50);
 }
-function eraseCell(ctx, ctx2, ctx3) {
+function eraseCell(ctx, ctx2, ctxBi) {
     remove_turing_cell(ctx, globalX, globalY);
     remove_turing_cell(ctx2, globalX, globalY);
-    draw_BIG_cell(ctx3, 50, 50);
+    draw_BIG_cell(ctxBi, 50, 50);
 }
 
 
